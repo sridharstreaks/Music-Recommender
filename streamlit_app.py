@@ -10,41 +10,47 @@ similarity = pickle.load(open('similarity_mini.pkl','rb'))
 def search_musicbrainz(artist, song_title):
     base_url = "https://musicbrainz.org/ws/2/"
     search_url = f"{base_url}recording/"
-    
+
     # Set up parameters for the search
     params = {
         'query': f'artist:"{artist}" AND recording:"{song_title}"',
         'fmt': 'json',
         'limit': 1  # Limit the result to only one recording
     }
-    
+
     # Make the request to the MusicBrainz API
     response = requests.get(search_url, params=params)
-    
+
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
         # Parse the JSON response
         data = response.json()
-        
+
         # Check if there are any recordings in the response
         if 'recordings' in data:
             recordings = data['recordings']
-            
+
             # Print details for the top recording found
             if recordings:
                 recording = recordings[0]
-                print(f"Title: {recording['title']}")
-                print(f"Artist: {', '.join(artist['name'] for artist in recording.get('artist-credit', []))}")
-                print(f"Release Date: {recording.get('first-release-date', 'N/A')}")
+                title = recording.get('title', 'N/A')
+                artist_name = ', '.join(artist['name'] for artist in recording.get('artist-credit', []))
+                release_date = recording.get('first-release-date', 'N/A')
+                genre = recording.get('genre', 'N/A')
+
+                print(f"Title: {title}")
+                print(f"Artist: {artist_name}")
+                print(f"Release Date: {release_date}")
+                print(f"Genre: {genre}")
                 print(f"ID: {recording['id']}")
-                
+
                 # Get album art from Deezer
                 album_art_url = get_deezer_album_art(artist, song_title)
                 if album_art_url:
                     print(f"Album Art: {album_art_url}")
                 else:
                     print("No album art found.")
-                
+
                 print("\n-----\n")
             else:
                 print("No recordings found.")
@@ -92,6 +98,7 @@ def recommender(song_title):
 
     return recommended_songs
 
+ 
 
 # Streamlit app
 def main():
@@ -99,13 +106,13 @@ def main():
 
     # Sidebar with user input using a select box
     st.sidebar.header("Music Recommender by Streaks")
+    st.sidebar.markdown("Select a song title from the list and click the 'Recommend' button to get music recommendations.")
+
     song_title = st.sidebar.selectbox("Select a song title:", unique_song_names)
     recommend_button = st.sidebar.button("Recommend")
 
     # Display welcome page if no song title provided
     if not song_title or not recommend_button:
-        st.header("Welcome to the Music Recommender App")
-        st.markdown("Select a song title from the list and click the 'Recommend' button to get music recommendations.")
         return
 
     # Display recommendations when the 'Recommend' button is clicked
@@ -121,6 +128,10 @@ def main():
             st.image(album_art_url, caption=f"Album Art for {recommendation['title']}")
         else:
             st.warning("No album art found.")
+
+        # Display release date and genre
+        st.write(f"Release Date: {recommendation.get('release_date', 'N/A')}")
+        st.write(f"Genre: {recommendation.get('genre', 'N/A')}")
 
         st.markdown("---")  # Separator
 
