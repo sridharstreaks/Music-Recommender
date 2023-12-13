@@ -74,6 +74,9 @@ def get_deezer_album_art(artist, track):
             return data['data'][0]['album']['cover_big']
     return None
 
+# Get unique song names for the select box
+unique_song_names = mini['title'].unique()
+
 # Recommender Function
 def recommender(song_title):
     idx = mini[mini['title'] == song_title].index[0]
@@ -94,14 +97,14 @@ def recommender(song_title):
 def main():
     st.title("Music Recommender App")
 
-    # Sidebar with user input
-    song_title = st.sidebar.text_input("Enter a song title:")
+    # Sidebar with user input using a select box
+    song_title = st.sidebar.selectbox("Select a song title:", unique_song_names)
     recommend_button = st.sidebar.button("Recommend")
 
     # Display welcome page if no song title provided
     if not song_title or not recommend_button:
         st.header("Welcome to the Music Recommender App")
-        st.markdown("Enter a song title and click the 'Recommend' button to get music recommendations.")
+        st.markdown("Select a song title from the list and click the 'Recommend' button to get music recommendations.")
         return
 
     # Display recommendations when the 'Recommend' button is clicked
