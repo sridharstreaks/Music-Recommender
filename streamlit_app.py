@@ -98,6 +98,7 @@ def main():
     st.title("Music Recommender App")
 
     # Sidebar with user input using a select box
+    st.sidebar.header("Music Recommender by Streaks")
     song_title = st.sidebar.selectbox("Select a song title:", unique_song_names)
     recommend_button = st.sidebar.button("Recommend")
 
