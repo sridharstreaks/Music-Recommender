@@ -75,7 +75,7 @@ def get_deezer_album_art(artist, track):
     return None
 
 # Get unique song names for the select box
-unique_song_names = mini['title'].unique()
+unique_song_names = sorted(set(mini.title))
 
 # Recommender Function
 def recommender(song_title):
