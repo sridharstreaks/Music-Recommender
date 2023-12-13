@@ -128,6 +128,11 @@ def main():
             st.image(album_art_url, caption=f"Album Art for {recommendation['title']}")
         else:
             st.warning("No album art found.")
+
+        # Display release date and genre
+        st.write(f"Release Date: {recommendation.get('first-release-date', 'N/A')}")
+        #st.write(f"Genre: {recommendation.get('genre', 'N/A')}")
+        
         st.markdown("---")  # Separator
 
 
