@@ -95,7 +95,16 @@ def main():
     st.title("Music Recommender App")
 
     # Sidebar with user input
-    song_title = st.sidebar.text_input("Enter a song title:", "Stronger")
+    song_title = st.sidebar.text_input("Enter a song title:")
+    recommend_button = st.sidebar.button("Recommend")
+
+    # Display welcome page if no song title provided
+    if not song_title or not recommend_button:
+        st.header("Welcome to the Music Recommender App")
+        st.markdown("Enter a song title and click the 'Recommend' button to get music recommendations.")
+        return
+
+    # Display recommendations when the 'Recommend' button is clicked
     recommendations = recommender(song_title)
 
     # Display recommendations
