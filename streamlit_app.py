@@ -117,7 +117,7 @@ def main():
 
     #To get Album Art of Selected Song
     selected_album_art_url = get_deezer_album_art(selected[2],selected[0])
-    if album_art_url:
+    if selected_album_art_url:
         st.sidebar.image(selected_album_art_url, caption=f"Album Art for {selected[0]}")
     else:
         st.sidebar.warning("No album art found.")
