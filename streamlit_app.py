@@ -10,7 +10,6 @@ similarity = pickle.load(open('similarity_mini.pkl','rb'))
 
 
 def search_musicbrainz(artist, song_title):
-
     # Initialize variables with default values
     mb_title = "N/A"
     mb_artist = "N/A"
@@ -63,7 +62,6 @@ def search_musicbrainz(artist, song_title):
             print("No recordings found.")
     else:
         print(f"Error: {response.status_code} - {response.text}")
-
     return mb_title,mb_artist,mb_release_date
 
 
@@ -88,7 +86,6 @@ def get_deezer_album_art(artist, track):
             return data['data'][0]['album']['cover_big']
     return None
     
-
 # Get unique song names for the select box
 unique_song_names = sorted(set(mini.title))
 
@@ -111,30 +108,33 @@ def recommender(song_title):
 # Streamlit app
 def main():
     st.title("Music Recommender App")
-    
-    
+
+
     # Sidebar with user input using a select box
     st.sidebar.header("Music Recommender by Streaks V1.0")
-    song_title = st.sidebar.selectbox("Select a song title:", unique_song_names,label_visibility="hidden")
+    song_title = st.sidebar.selectbox("Select a song title:", unique_song_names)
 
     #Storing Selected song detials
     #selected=mini.query("title == song_title").values.flatten().tolist()
     selected=mini.loc[mini["title"] == song_title].values.flatten().tolist()
-
+    
+    
     #To get Album Art of Selected Song
     selected_album_art_url = get_deezer_album_art(selected[2],selected[0])
     if selected_album_art_url:
         st.sidebar.image(selected_album_art_url, caption=f"Album Art for {selected[0]}")
     else:
         st.sidebar.warning("No album art found.")
-
+    
+    
     # To get music details of selected song
     selected_mb=search_musicbrainz(selected[2],selected[0])
     st.sidebar.write(f"Title: {selected_mb[0]}")
     st.sidebar.write(f"Artist/Artists: {selected_mb[1]}")
     st.sidebar.write(f"Release Date: {selected_mb[2]}")
     st.sidebar.write(f"Genre: {selected[1]}")
-
+    
+    
     # Sidebar recommend button
     recommend_button = st.sidebar.button("Recommend")
     
@@ -160,13 +160,12 @@ def main():
         # Warning about API usage
         st.warning("⚠️ Please note that the MusicBrainz and Deezer APIs are free services. "
                    "Avoid excessive requests to prevent abuse of the service.")
-    
+            
         return
 
-    
+
     # Display recommendations when the 'Recommend' button is clicked
     recommendations = recommender(song_title)
-
     
     # Display recommendations
     st.header("Top Recommendations:")
@@ -178,13 +177,13 @@ def main():
             st.image(album_art_url, caption=f"Album Art for {recommendation['title']}")
         else:
             st.warning("No album art found.")
-
+            
         # Display release date and genre
         st.write(f"Title: {mb_result[0]}")
         st.write(f"Artist/Artists: {mb_result[1]}")
         st.write(f"Release Date: {mb_result[2]}")
         st.write(f"Genre: {recommendation['genre']}")
-        
+
         st.markdown("---")  # Separator
 
 
