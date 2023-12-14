@@ -112,7 +112,8 @@ def main():
     song_title = st.sidebar.selectbox("Select a song title:", unique_song_names)
 
     #Storing Selected song detials
-    selected=mini.query("title == song_title").values.flatten().tolist()
+    #selected=mini.query("title == song_title").values.flatten().tolist()
+    selected=mini.loc[mini["title"] == song_title].values.flatten().tolist()
 
     #To get Album Art of Selected Song
     selected_album_art_url = get_deezer_album_art(selected[2],selected[0])
