@@ -90,7 +90,8 @@ def recommender(song_title):
     for idx, distance in distances[1:5]:
         recommended_song = {
             'title': mini.iloc[idx]['title'],
-            'artist': mini.iloc[idx]['artist']
+            'artist': mini.iloc[idx]['artist'],
+            'genre': mini.iloc[idx]['tag']
         }
         recommended_songs.append(recommended_song)
     return recommended_songs
@@ -130,8 +131,8 @@ def main():
             st.warning("No album art found.")
 
         # Display release date and genre
-        st.write(f"Release Date: {recommendation.get('first-release-date', 'N/A')}")
-        #st.write(f"Genre: {recommendation.get('genre', 'N/A')}")
+        st.write(f"Release Date: {recording.get('first-release-date', 'N/A')}")
+        st.write(f"Genre: {recommendation['genre']}")
         
         st.markdown("---")  # Separator
 
