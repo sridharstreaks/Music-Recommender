@@ -110,6 +110,25 @@ def main():
     # Sidebar with user input using a select box
     st.sidebar.header("Music Recommender by Streaks")
     song_title = st.sidebar.selectbox("Select a song title:", unique_song_names)
+
+    #Storing Selected song detials
+    selected=mini.query("Name == song_title").values.flatten().tolist()
+
+    #To get Album Art of Selected Song
+    selected_album_art_url = get_deezer_album_art(selected[2],selected[0])
+    if album_art_url:
+        st.sidebar.image(selected_album_art_url, caption=f"Album Art for {selected[0]}")
+    else:
+        st.sidebar.warning("No album art found.")
+
+    # To get music details of selected song
+    selected_mb=search_musicbrainz(selected[2],selected[0])
+    st.sidebar.write(f"Title: {selected_mb[0]}")
+    st.sidebar.write(f"Artist/Artists: {selected_mb[1]}")
+    st.sidebar.write(f"Release Date: {selected_mb[2]}")
+    st.sidebar.write(f"Genre: {selected[1]}")
+
+    # Sidebar recommend button
     recommend_button = st.sidebar.button("Recommend")
     
     
