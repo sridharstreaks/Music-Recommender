@@ -35,9 +35,12 @@ def search_musicbrainz(artist, song_title):
             # Print details for the top recording found
             if recordings:
                 recording = recordings[0]
-                print(f"Title: {recording['title']}")
-                print(f"Artist: {', '.join(artist['name'] for artist in recording.get('artist-credit', []))}")
-                print(f"Release Date: {recording.get('first-release-date', 'N/A')}")
+                mb_title=recording['title']
+                print(f"Title: {mb_title}")
+                mb_artist=', '.join(artist['name'] for artist in recording.get('artist-credit', []))
+                print(f"Artist: {mb_artist}")
+                mb_release_date=recording.get('first-release-date', 'N/A')
+                print(f"Release Date: {mb_release_date}")
                 print(f"ID: {recording['id']}")
                 
                 # Get album art from Deezer
@@ -54,6 +57,8 @@ def search_musicbrainz(artist, song_title):
             print("No recordings found.")
     else:
         print(f"Error: {response.status_code} - {response.text}")
+
+    return mb_title,mb_artist,mb_release_date
 
 
 def get_deezer_album_art(artist, track):
@@ -123,7 +128,7 @@ def main():
     st.header("Top Recommendations:")
     for recommendation in recommendations:
         st.subheader(f"{recommendation['title']} by {recommendation['artist']}")
-        search_musicbrainz(recommendation['artist'], recommendation['title'])
+        mb_result=search_musicbrainz(recommendation['artist'], recommendation['title'])
         album_art_url = get_deezer_album_art(recommendation['artist'], recommendation['title'])
         if album_art_url:
             st.image(album_art_url, caption=f"Album Art for {recommendation['title']}")
@@ -131,7 +136,9 @@ def main():
             st.warning("No album art found.")
 
         # Display release date and genre
-        st.write(f"Release Date: {recording.get('first-release-date', 'N/A')}")
+        st.write(f"Title: {mb_result[0]}")
+        st.write(f"Artist/Artists: {mb_result[1]}")
+        st.write(f"Release Date: {mb_result[2]}")
         st.write(f"Genre: {recommendation['genre']}")
         
         st.markdown("---")  # Separator
