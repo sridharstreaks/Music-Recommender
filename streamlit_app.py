@@ -90,7 +90,7 @@ def get_deezer_album_art(artist, track):
     
 
 # Get unique song names for the select box
-unique_song_names = sorted(set(mini.title))
+unique_song_names = ["Select a song title"]+sorted(set(mini.title))
 
 
 # Recommender Function
@@ -149,6 +149,18 @@ def main():
         st.markdown("1. This recommender contains the most popular songs from 1950 up to 2005 as I want to explore songs between these periods, and it includes only English-language songs.")
         st.markdown("2. This is version 1 of the app, and more songs will be added in upcoming versions.")
         st.markdown("3. The recommender works based on lyric similarity between songs. New Methods might get implemented on upcoming versions for better recommendations")
+        
+        # Acknowledgments
+        st.markdown("## Acknowledgments:")
+        st.markdown("4. Thanks to MusicBrainz for providing song metadata.")
+        st.markdown("5. Thanks to Deezer for providing album art for free.")
+        st.markdown("6. Special thanks to Yamac Eren Ay [https://www.kaggle.com/yamaerenay] for maintaining a massive dataset.")
+        st.markdown("7. Thanks to RAZA [https://www.kaggle.com/razauhaq] for providing code for cleaning lyrics of the massive dataset.")
+    
+        # Warning about API usage
+        st.warning("⚠️ Please note that the MusicBrainz and Deezer APIs are free services. "
+                   "Avoid excessive requests to prevent abuse of the service.")
+    
         return
 
     
@@ -174,17 +186,6 @@ def main():
         st.write(f"Genre: {recommendation['genre']}")
         
         st.markdown("---")  # Separator
-
-    # Acknowledgments
-    st.markdown("## Acknowledgments:")
-    st.markdown("4. Thanks to MusicBrainz for providing song metadata.")
-    st.markdown("5. Thanks to Deezer for providing album art for free.")
-    st.markdown("6. Special thanks to Yamac Eren Ay [https://www.kaggle.com/yamaerenay] for maintaining a massive dataset.")
-    st.markdown("7. Thanks to RAZA [https://www.kaggle.com/razauhaq] for providing code for cleaning lyrics of the massive dataset.")
-
-    # Warning about API usage
-    st.warning("⚠️ Please note that the MusicBrainz and Deezer APIs are free services. "
-               "Avoid excessive requests to prevent abuse of the service.")
 
 
 if __name__ == "__main__":
