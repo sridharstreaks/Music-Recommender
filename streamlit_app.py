@@ -115,7 +115,7 @@ def main():
     
     # Sidebar with user input using a select box
     st.sidebar.header("Music Recommender by Streaks V1.0")
-    song_title = st.sidebar.selectbox("Select a song title:", unique_song_names)
+    song_title = st.sidebar.selectbox("Select a song title:", unique_song_names,index=0)
 
     #Storing Selected song detials
     #selected=mini.query("title == song_title").values.flatten().tolist()
