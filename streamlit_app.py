@@ -10,6 +10,12 @@ similarity = pickle.load(open('similarity_mini.pkl','rb'))
 
 
 def search_musicbrainz(artist, song_title):
+
+    # Initialize variables with default values
+    mb_title = "N/A"
+    mb_artist = "N/A"
+    mb_release_date = "N/A"
+    
     base_url = "https://musicbrainz.org/ws/2/"
     search_url = f"{base_url}recording/"
     
