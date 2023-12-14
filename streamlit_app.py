@@ -114,7 +114,7 @@ def main():
     
     
     # Sidebar with user input using a select box
-    st.sidebar.header("Music Recommender by Streaks")
+    st.sidebar.header("Music Recommender by Streaks V1.0")
     song_title = st.sidebar.selectbox("Select a song title:", unique_song_names)
 
     #Storing Selected song detials
@@ -143,6 +143,12 @@ def main():
     if not song_title or not recommend_button:
         st.header("Welcome to the Music Recommender App")
         st.markdown("Select a song title from the list and click the 'Recommend' button to get music recommendations.")
+
+        # Information about the app
+        st.subheader("App Information:")
+        st.markdown("1. This recommender contains the most popular songs from 1950 up to 2005 as I want to explore songs between these periods, and it includes only English-language songs.")
+        st.markdown("2. This is version 1 of the app, and more songs will be added in upcoming versions.")
+        st.markdown("3. The recommender works based on lyric similarity between songs. New Methods might get implemented on upcoming versions for better recommendations")
         return
 
     
@@ -168,6 +174,17 @@ def main():
         st.write(f"Genre: {recommendation['genre']}")
         
         st.markdown("---")  # Separator
+
+    # Acknowledgments
+    st.markdown("## Acknowledgments:")
+    st.markdown("4. Thanks to MusicBrainz for providing song metadata.")
+    st.markdown("5. Thanks to Deezer for providing album art for free.")
+    st.markdown("6. Special thanks to Yamac Eren Ay [https://www.kaggle.com/yamaerenay] for maintaining a massive dataset.")
+    st.markdown("7. Thanks to RAZA [https://www.kaggle.com/razauhaq] for providing code for cleaning lyrics of the massive dataset.")
+
+    # Warning about API usage
+    st.warning("⚠️ Please note that the MusicBrainz and Deezer APIs are free services. "
+               "Avoid excessive requests to prevent abuse of the service.")
 
 
 if __name__ == "__main__":
